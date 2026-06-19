@@ -1,0 +1,1019 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Motor B-B Dimension Learning Center</title>
+    <style>
+        :root {
+            --primary: #005A9C;
+            --primary-dark: #002F6C;
+            --primary-light: #E6F0FA;
+            --accent: #00A4E4;
+            --text-main: #2C3E50;
+            --text-muted: #5A6B7C;
+            --bg-body: #F4F7FA;
+            --bg-card: #FFFFFF;
+            --border-color: #D1D9E0;
+            --success: #2ECC71;
+            --warning: #E67E22;
+            --danger: #E74C3C;
+            --font-family: 'Segoe UI', -apple-system, BlinkMacSystemFont, Roboto, Helvetica, Arial, sans-serif;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: var(--font-family);
+            background-color: var(--bg-body);
+            color: var(--text-main);
+            line-height: 1.6;
+        }
+
+        header {
+            background-color: var(--primary-dark);
+            color: white;
+            padding: 1.5rem 2rem;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        header h1 {
+            font-size: 1.5rem;
+            font-weight: 600;
+            letter-spacing: 0.5px;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 1.5rem;
+            list-style: none;
+            overflow-x: auto;
+        }
+
+        .nav-links a {
+            color: #CBD5E1;
+            text-decoration: none;
+            font-size: 0.9rem;
+            font-weight: 500;
+            transition: color 0.2s;
+            white-space: nowrap;
+        }
+
+        .nav-links a:hover {
+            color: white;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 2rem 1rem;
+        }
+
+        section {
+            background: var(--bg-card);
+            border-radius: 8px;
+            padding: 2.5rem;
+            margin-bottom: 2.5rem;
+            box-shadow: 0 4px 6px -1px rgba(0,0,0,0.05), 0 2px 4px -1px rgba(0,0,0,0.03);
+            border: 1px solid var(--border-color);
+        }
+
+        h2 {
+            color: var(--primary-dark);
+            font-size: 1.8rem;
+            margin-bottom: 1.5rem;
+            border-bottom: 2px solid var(--primary-light);
+            padding-bottom: 0.5rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        p {
+            margin-bottom: 1.2rem;
+            color: var(--text-main);
+        }
+
+        .grid-2 {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(450px, 1fr));
+            gap: 2rem;
+        }
+
+        .grid-3 {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 1.5rem;
+        }
+
+        /* Hero Styling */
+        .hero {
+            background: linear-gradient(135deg, var(--primary-dark) 0%, var(--primary) 100%);
+            color: white;
+            border: none;
+            padding: 4rem 2.5rem;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-align: center;
+        }
+
+        .hero h1 {
+            font-size: 2.8rem;
+            margin-bottom: 1rem;
+            font-weight: 700;
+        }
+
+        .hero p {
+            font-size: 1.2rem;
+            color: #E2E8F0;
+            max-width: 800px;
+            margin-bottom: 2rem;
+        }
+
+        .hero-svg-container {
+            width: 100%;
+            max-width: 750px;
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 6px;
+            padding: 1rem;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        /* Card Custom Design */
+        .card {
+            background: var(--bg-body);
+            border: 1px solid var(--border-color);
+            border-radius: 6px;
+            padding: 1.5rem;
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+
+        .card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 12px rgba(0,0,0,0.05);
+            border-color: var(--accent);
+        }
+
+        .card-title {
+            font-weight: 600;
+            color: var(--primary-dark);
+            margin-bottom: 0.75rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        /* Interactive SVG Elements */
+        .svg-interactive {
+            width: 100%;
+            height: auto;
+            background: #FAFAFA;
+            border: 1px solid var(--border-color);
+            border-radius: 6px;
+        }
+
+        .interactive-part {
+            cursor: pointer;
+            transition: fill 0.2s, opacity 0.2s;
+        }
+
+        .interactive-part:hover {
+            fill-opacity: 0.8;
+            filter: brightness(0.9);
+        }
+
+        .tooltip-box {
+            background: var(--primary-dark);
+            color: white;
+            padding: 0.75rem;
+            border-radius: 4px;
+            font-size: 0.85rem;
+            margin-top: 1rem;
+            min-height: 45px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-left: 4px solid var(--accent);
+        }
+
+        /* Control Panel / Form Inputs */
+        .form-group {
+            margin-bottom: 1.25rem;
+        }
+
+        label {
+            display: block;
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+            font-size: 0.9rem;
+            color: var(--text-main);
+        }
+
+        input[type="number"], select {
+            width: 100%;
+            padding: 0.6rem 0.75rem;
+            border: 1px solid var(--border-color);
+            border-radius: 4px;
+            font-family: inherit;
+            font-size: 0.95rem;
+            color: var(--text-main);
+            background-color: white;
+        }
+
+        input[type="number"]:focus, select:focus {
+            outline: none;
+            border-color: var(--primary);
+            box-shadow: 0 0 0 3px var(--primary-light);
+        }
+
+        .btn {
+            display: inline-block;
+            background-color: var(--primary);
+            color: white;
+            border: none;
+            padding: 0.6rem 1.25rem;
+            font-size: 0.95rem;
+            font-weight: 500;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: background-color 0.2s;
+        }
+
+        .btn:hover {
+            background-color: var(--primary-dark);
+        }
+
+        .btn-outline {
+            background-color: transparent;
+            border: 1px solid var(--primary);
+            color: var(--primary);
+        }
+
+        .btn-outline:hover {
+            background-color: var(--primary-light);
+        }
+
+        /* Calculator / Math Outputs */
+        .calc-display {
+            background: var(--primary-light);
+            border-left: 5px solid var(--primary);
+            padding: 1.5rem;
+            border-radius: 4px;
+            margin-top: 1rem;
+        }
+
+        .formula-box {
+            font-family: 'Courier New', Courier, monospace;
+            background: #EAEFF5;
+            padding: 1rem;
+            border-radius: 4px;
+            overflow-x: auto;
+            margin: 1rem 0;
+            font-weight: bold;
+            color: var(--primary-dark);
+        }
+
+        /* Tolerance Segment styling */
+        .tolerance-track {
+            background: #E2E8F0;
+            height: 24px;
+            border-radius: 12px;
+            position: relative;
+            margin: 1.5rem 0;
+            overflow: hidden;
+        }
+
+        .tolerance-zone {
+            height: 100%;
+            position: absolute;
+            background: linear-gradient(90deg, var(--accent) 0%, var(--primary) 100%);
+            transition: all 0.3s ease;
+        }
+
+        .tolerance-marker {
+            position: absolute;
+            top: 0;
+            bottom: 0;
+            width: 2px;
+            background: var(--danger);
+        }
+
+        /* Toggle Button Group */
+        .toggle-group {
+            display: flex;
+            gap: 0.5rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .toggle-btn {
+            flex: 1;
+            padding: 0.75rem;
+            background: #EBEFF5;
+            border: 1px solid var(--border-color);
+            text-align: center;
+            cursor: pointer;
+            font-weight: 600;
+            border-radius: 4px;
+            transition: all 0.2s;
+        }
+
+        .toggle-btn.active {
+            background: var(--primary);
+            color: white;
+            border-color: var(--primary);
+        }
+
+        .alert-panel {
+            padding: 1rem;
+            border-radius: 4px;
+            margin-top: 1rem;
+            font-weight: 500;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .alert-success { background-color: #E8F8F5; color: var(--success); border-left: 4px solid var(--success); }
+        .alert-danger { background-color: #FDEDEC; color: var(--danger); border-left: 4px solid var(--danger); }
+
+        /* Quiz Styling */
+        .quiz-option {
+            display: block;
+            background: #F8FAFC;
+            border: 1px solid var(--border-color);
+            padding: 0.75rem 1rem;
+            border-radius: 4px;
+            margin-bottom: 0.5rem;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .quiz-option:hover {
+            background: #EDF2F7;
+        }
+
+        .quiz-option.correct {
+            background: #D4EDDA;
+            border-color: var(--success);
+            color: #155724;
+        }
+
+        .quiz-option.wrong {
+            background: #F8D7DA;
+            border-color: var(--danger);
+            color: #721C24;
+        }
+
+        /* Design Notes Layout */
+        .blueprint-notes {
+            background: #1E293B;
+            color: #E2E8F0;
+            padding: 2rem;
+            border-radius: 6px;
+            font-family: 'Courier New', Courier, monospace;
+            border-left: 6px solid var(--accent);
+        }
+
+        .blueprint-notes h3 {
+            color: white;
+            margin-bottom: 1rem;
+            font-family: var(--font-family);
+        }
+
+        .blueprint-line {
+            margin-bottom: 0.5rem;
+            border-bottom: 1px dashed #334155;
+            padding-bottom: 0.25rem;
+        }
+
+        /* Animations */
+        @keyframes pulse-line {
+            0% { stroke-width: 2; opacity: 0.6; }
+            50% { stroke-width: 4; opacity: 1; }
+            100% { stroke-width: 2; opacity: 0.6; }
+        }
+
+        .dimension-line-pulse {
+            animation: pulse-line 2s infinite ease-in-out;
+        }
+
+        /* Component shifting animations for stackup */
+        .stack-comp {
+            transition: transform 0.8s cubic-bezier(0.25, 1, 0.5, 1);
+        }
+
+        @media (max-width: 768px) {
+            .grid-2 { grid-template-columns: 1fr; }
+            .hero h1 { font-size: 2rem; }
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <h1>Motor B-B Dimension Learning Center</h1>
+        <ul class="nav-links">
+            <li><a href="#definition">What is B-B</a></li>
+            <li><a href="#importance">Why It Matters</a></li>
+            <li><a href="#visualization">Stack-Up</a></li>
+            <li><a href="#calculator">Calculator</a></li>
+            <li><a href="#tolerance">Tolerance</a></li>
+            <li><a href="#airgap">Air Gap</a></li>
+            <li><a href="#builder">Interactive Builder</a></li>
+            <li><a href="#quiz">Knowledge Check</a></li>
+        </ul>
+    </header>
+
+    <div class="container">
+
+        <section class="hero">
+            <h1>Understanding B-B Dimension in Electric Motors</h1>
+            <p>Visualize, Calculate and Master Motor Assembly Stack-Ups to Ensure Structural and Electromagnetic Alignment.</p>
+            
+            <div class="hero-svg-container">
+                <svg viewBox="0 0 800 300" width="100%" height="100%">
+                    <rect x="250" y="50" width="300" height="40" fill="#4A5568" rx="2" />
+                    <rect x="250" y="210" width="300" height="40" fill="#4A5568" rx="2" />
+                    <rect x="280" y="100" width="240" height="100" fill="#718096" rx="4" />
+                    <rect x="100" y="140" width="600" height="20" fill="#CBD5E1" />
+                    
+                    <path d="M 180 40 L 220 40 L 220 110 L 200 110 L 200 190 L 220 190 L 220 260 L 180 260 Z" fill="#A0AEC0" />
+                    <path d="M 620 40 L 580 40 L 580 110 L 600 110 L 600 190 L 580 190 L 580 260 L 620 260 Z" fill="#A0AEC0" />
+                    
+                    <rect x="200" y="115" width="20" height="25" fill="#E2E8F0" stroke="#4A5568" stroke-width="1.5" />
+                    <circle cx="210" cy="127.5" r="4" fill="#3182CE" />
+                    <rect x="200" y="160" width="20" height="25" fill="#E2E8F0" stroke="#4A5568" stroke-width="1.5" />
+                    <circle cx="210" cy="172.5" r="4" fill="#3182CE" />
+                    
+                    <rect x="580" y="115" width="20" height="25" fill="#E2E8F0" stroke="#4A5568" stroke-width="1.5" />
+                    <circle cx="590" cy="127.5" r="4" fill="#3182CE" />
+                    <rect x="580" y="160" width="20" height="25" fill="#E2E8F0" stroke="#4A5568" stroke-width="1.5" />
+                    <circle cx="590" cy="172.5" r="4" fill="#3182CE" />
+
+                    <line x1="210" y1="20" x2="590" y2="20" stroke="#00A4E4" stroke-width="2.5" class="dimension-line-pulse" stroke-dasharray="4,2" />
+                    <polygon points="210,20 220,15 220,25" fill="#00A4E4" />
+                    <polygon points="590,20 580,15 580,25" fill="#00A4E4" />
+                    
+                    <line x1="210" y1="20" x2="210" y2="115" stroke="#00A4E4" stroke-width="1" stroke-dasharray="3,3" />
+                    <line x1="590" y1="20" x2="590" y2="115" stroke="#00A4E4" stroke-width="1" stroke-dasharray="3,3" />
+                    
+                    <text x="400" y="45" fill="#FFFFFF" font-family="sans-serif" font-size="16" font-weight="bold" text-anchor="middle">CRITICAL B-B DIMENSION (BEARING TO BEARING)</text>
+                </svg>
+            </div>
+        </section>
+
+        <section id="definition" class="grid-2">
+            <div>
+                <h2>What is B-B Dimension?</h2>
+                <p>The <strong>B-B Dimension</strong> (Bearing-to-Bearing shoulder distance) is the critical assembly measurement controlling axial positioning inside electric motors. It determines exactly how the bearings sit within their respective bracket seats relative to the rotor magnetic center.</p>
+                <blockquote>
+                    <strong>Definition:</strong> The baseline structural distance calculated between the primary positioning references of the Drive End (DE) and Opposite Drive End (ODE) bearings.
+                </blockquote>
+                <p>Hover over the diagram mapping paths to parse component specific criteria dynamically.</p>
+                <div class="tooltip-box" id="info-display">Hover over the layout geometry to explore critical dimensions.</div>
+            </div>
+            <div>
+                <svg viewBox="0 0 500 300" class="svg-interactive">
+                    <g class="interactive-part" data-title="Drive End (DE) Bearing Seat" data-desc="Locates the front boundary constraint. Shifts directly alter load distribution profiles.">
+                        <rect x="80" y="80" width="30" height="140" fill="#3182CE" fill-opacity="0.3" stroke="#3182CE" stroke-width="2"/>
+                        <text x="95" y="155" fill="#2C3E50" font-size="10" text-anchor="middle" font-weight="bold">DE BEARING</text>
+                    </g>
+                    <g class="interactive-part" data-title="Rotor Core Stack / Stator Envelope" data-desc="The main active electromagnetic length. Misalignment here yields magnetic axial pull stresses.">
+                        <rect x="170" y="60" width="160" height="180" fill="#A0AEC0" fill-opacity="0.4" stroke="#4A5568"/>
+                        <text x="250" y="155" fill="#2C3E50" font-size="12" text-anchor="middle">ROTOR STACK</text>
+                    </g>
+                    <g class="interactive-part" data-title="Opposite Drive End (ODE) Bearing Seat" data-desc="The secondary retention boundary. Essential to calibrate correctly to enable controlled thermal growth displacement.">
+                        <rect x="390" y="80" width="30" height="140" fill="#3182CE" fill-opacity="0.3" stroke="#3182CE" stroke-width="2"/>
+                        <text x="405" y="155" fill="#2C3E50" font-size="10" text-anchor="middle" font-weight="bold">ODE BEARING</text>
+                    </g>
+                    <line x1="95" y1="260" x2="405" y2="260" stroke="#2C3E50" stroke-width="2"/>
+                    <polygon points="95,260 105,255 105,265" fill="#2C3E50" />
+                    <polygon points="405,260 395,255 395,265" fill="#2C3E50" />
+                    <text x="250" y="285" fill="#2C3E50" font-weight="bold" text-anchor="middle" font-size="14">--- B-B LENGTH SPAN ---</text>
+                </svg>
+            </div>
+        </section>
+
+        <section id="importance">
+            <h2>Why B-B Matters</h2>
+            <div class="grid-3">
+                <div class="card">
+                    <div class="card-title">🌐 Rotor Centering</div>
+                    <p>Ensures the rotor core lines up perfectly with the stator's magnetic field to prevent axial magnetic pull from stressing components.</p>
+                </div>
+                <div class="card">
+                    <div class="card-title">📐 Air Gap Consistency</div>
+                    <p>Maintains a uniform symmetrical radial clearances around the internal circumference to maximize uniform magnetic flux transfer distribution profiles.</p>
+                </div>
+                <div class="card">
+                    <div class="card-title">⏳ Bearing Life Optimization</div>
+                    <p>Prevents destructive internal axial preloading setup scenarios resulting from cramped dimensions or excessive loose structural running shifts.</p>
+                </div>
+                <div class="card">
+                    <div class="card-title">🔊 Vibration Control</div>
+                    <p>Minimizes parasitic dynamic mechanical balancing stresses, avoiding premature resonance failure profiles across the assembly framework.</p>
+                </div>
+                <div class="card">
+                    <div class="card-title">🛠️ Assembly Accuracy</div>
+                    <p>Enables reliable, repeatable manufacturing processing sequences without relying on custom fitting adjustments on the shop floor.</p>
+                </div>
+                <div class="card">
+                    <div class="card-title">🔥 Thermal Expansion Management</div>
+                    <p>Provides clear, predefined physical expansion paths for the structural shaft when the motor heats up to full operational temperatures.</p>
+                </div>
+            </div>
+        </section>
+
+        <section id="visualization">
+            <h2>Motor Assembly Stack-Up Visualization</h2>
+            <p>Animate the internal spatial components along the axis to see how each part contributes directly to the final system stackup configuration.</p>
+            <div style="margin-bottom:1rem; display:flex; gap:1rem;">
+                <button class="btn" onclick="animateStackUp('explode')">Explode Component View</button>
+                <button class="btn btn-outline" onclick="animateStackUp('assemble')">Assemble System View</button>
+            </div>
+            <div style="background:#F8FAFC; border:1px solid var(--border-color); padding:1rem; border-radius:6px;">
+                <svg viewBox="0 0 900 250" width="100%">
+                    <line x1="50" y1="125" x2="850" y2="125" stroke="#94A3B8" stroke-width="1" stroke-dasharray="5,5" />
+                    
+                    <g id="comp-de-bracket" class="stack-comp">
+                        <rect x="80" y="50" width="30" height="150" fill="#3B82F6" opacity="0.8"/>
+                        <text x="95" y="40" font-size="11" text-anchor="middle" font-weight="bold">DE Bracket</text>
+                    </g>
+                    <g id="comp-de-bearing" class="stack-comp">
+                        <rect x="200" y="80" width="20" height="90" fill="#1D4ED8" opacity="0.9"/>
+                        <text x="210" y="40" font-size="11" text-anchor="middle" font-weight="bold">DE Brg</text>
+                    </g>
+                    <g id="comp-rotor" class="stack-comp">
+                        <rect x="350" y="95" width="200" height="60" fill="#64748B"/>
+                        <rect x="400" y="70" width="100" height="110" fill="#475569"/>
+                        <text x="450" y="40" font-size="11" text-anchor="middle" font-weight="bold">Rotor/Shaft</text>
+                    </g>
+                    <g id="comp-ode-bearing" class="stack-comp">
+                        <rect x="640" y="80" width="20" height="90" fill="#1D4ED8" opacity="0.9"/>
+                        <text x="650" y="40" font-size="11" text-anchor="middle" font-weight="bold">ODE Brg</text>
+                    </g>
+                    <g id="comp-ode-bracket" class="stack-comp">
+                        <rect x="750" y="50" width="30" height="150" fill="#3B82F6" opacity="0.8"/>
+                        <text x="765" y="40" font-size="11" text-anchor="middle" font-weight="bold">ODE Bracket</text>
+                    </g>
+                </svg>
+            </div>
+            <div class="formula-box">
+                $$B\text{-}B = \text{Bracket Offset (DE)} + \text{Core Frame Structural Spacing} + \text{Bracket Offset (ODE)} - \text{Accumulated Step Offsets}$$
+            </div>
+        </section>
+
+        <section id="calculator" class="grid-2">
+            <div>
+                <h2>B-B Calculation Fundamentals</h2>
+                <p>The mathematical chain loop sums up the dimensional elements from end-face reference planes to evaluate alignment conditions accurately.</p>
+                <div class="formula-box">
+                    $$B\text{-}B = X_{\text{DE\_Offset}} + L_{\text{Core\_Frame}} + X_{\text{ODE\_Offset}}$$
+                </div>
+                <p>Modify the physical production metrics in the input panels to evaluate total nominal design values instantly.</p>
+                
+                <div style="background:var(--primary-light); padding:1rem; border-radius:6px; font-size:0.85rem; border-left:4px solid var(--primary);">
+                    <strong>Engineering Rule:</strong> Ensure all measurements are evaluated using identical base physical reference structures (e.g., machining seat shoulders to face points).
+                </div>
+            </div>
+            
+            <div style="background:#F8FAFC; border:1px solid var(--border-color); padding:1.5rem; border-radius:6px;">
+                <h3 style="margin-bottom:1rem; color:var(--primary-dark);">Live Dimensional Calculator</h3>
+                <div class="form-group">
+                    <label for="input-de-offset">DE Bracket Offset ($X_{\text{DE}}$, mm):</label>
+                    <input type="number" id="input-de-offset" value="45.00" step="0.05" oninput="runLiveCalculation()">
+                </div>
+                <div class="form-group">
+                    <label for="input-core-length">Core Frame Spatial Length ($L_{\text{Core}}$, mm):</label>
+                    <input type="number" id="input-core-length" value="200.00" step="0.1" oninput="runLiveCalculation()">
+                </div>
+                <div class="form-group">
+                    <label for="input-ode-offset">ODE Bracket Offset ($X_{\text{ODE}}$, mm):</label>
+                    <input type="number" id="input-ode-offset" value="50.00" step="0.05" oninput="runLiveCalculation()">
+                </div>
+                
+                <div class="calc-display">
+                    <div style="font-size:0.85rem; font-weight:600; color:var(--text-muted);">CALCULATED NOMINAL B-B DIMENSION</div>
+                    <div style="font-size:2rem; font-weight:700; color:var(--primary-dark);" id="calc-output-bb">295.00 mm</div>
+                </div>
+            </div>
+        </section>
+
+        <section id="tolerance">
+            <h2>Tolerance Stack-Up Analysis</h2>
+            <p>Every manufactured part contains slight dimensional variations. Calculating the cumulative variations across components reveals the boundaries for both the tightly packed Maximum Material Condition (MMC) and the loose Minimum Material Condition (LMC).</p>
+            
+            <div class="grid-2">
+                <div>
+                    <table style="width:100%; border-collapse: collapse; margin-bottom:1rem; font-size:0.9rem;">
+                        <thead>
+                            <tr style="background:#E2E8F0; text-align:left;">
+                                <th style="padding:0.5rem;">Component Part</th>
+                                <th style="padding:0.5rem;">Nominal (mm)</th>
+                                <th style="padding:0.5rem;">Tolerance (mm)</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr style="border-bottom:1px solid var(--border-color);">
+                                <td style="padding:0.5rem;">Component A: DE Bracket</td>
+                                <td style="padding:0.5rem;">100.00</td>
+                                <td style="padding:0.5rem;">± 0.10</td>
+                            </tr>
+                            <tr style="border-bottom:1px solid var(--border-color);">
+                                <td style="padding:0.5rem;">Component B: Frame Body</td>
+                                <td style="padding:0.5rem;">50.00</td>
+                                <td style="padding:0.5rem;">± 0.05</td>
+                            </tr>
+                            <tr style="border-bottom:1px solid var(--border-color);">
+                                <td style="padding:0.5rem;">Component C: ODE Bracket</td>
+                                <td style="padding:0.5rem;">25.00</td>
+                                <td style="padding:0.5rem;">± 0.02</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <div>
+                    <h4 style="font-size:0.95rem; margin-bottom:0.5rem;">Visual Limits Comparison Bar</h4>
+                    <div class="tolerance-track">
+                        <div class="tolerance-zone" style="left:15%; width:70%;"></div>
+                        <div class="tolerance-marker" style="left:15%;" title="Worst Case Lower Limit"></div>
+                        <div class="tolerance-marker" style="left:50%; background:white; width:3px;" title="Nominal Baseline Center"></div>
+                        <div class="tolerance-marker" style="left:85%;" title="Worst Case Upper Limit"></div>
+                    </div>
+                    <div class="grid-3" style="text-align:center; font-size:0.85rem;">
+                        <div style="background:#FADBD8; padding:0.5rem; border-radius:4px;">
+                            <strong>Worst Case (Min)</strong><br><span id="tol-min">174.83 mm</span>
+                        </div>
+                        <div style="background:#E8F8F5; padding:0.5rem; border-radius:4px;">
+                            <strong>Nominal Value</strong><br><span id="tol-nom">175.00 mm</span>
+                        </div>
+                        <div style="background:#EBF5FB; padding:0.5rem; border-radius:4px;">
+                            <strong>Worst Case (Max)</strong><br><span id="tol-max">175.17 mm</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="airgap">
+            <h2>Air Gap Impact Analysis</h2>
+            <p>Toggle the design alignment state below to analyze how accurate dimensional control impacts internal motor clearances and risk profiles.</p>
+            
+            <div class="toggle-group">
+                <div class="toggle-btn active" id="btn-gap-correct" onclick="setAirGapState(true)">Correct B-B Setup Alignment (Rotor Perfectly Centered)</div>
+                <div class="toggle-btn" id="btn-gap-incorrect" onclick="setAirGapState(false)">Incorrect B-B Setup Alignment (Rotor Shifted Axially)</div>
+            </div>
+
+            <div class="grid-2">
+                <div style="background:#FAFBFD; border:1px solid var(--border-color); padding:1rem; border-radius:6px; display:flex; justify-content:center;">
+                    <svg viewBox="0 0 400 200" width="100%" max-width="400px">
+                        <rect x="50" y="30" width="300" height="140" fill="none" stroke="#4A5568" stroke-width="4" />
+                        <text x="200" y="25" text-anchor="middle" font-size="11" font-weight="bold" fill="#4A5568">STATOR CORE RUN BOUNDARY</text>
+                        
+                        <g id="airgap-rotor-obj" style="transition: transform 0.4s ease;">
+                            <rect x="90" y="50" width="220" height="100" fill="#3B82F6" fill-opacity="0.6" stroke="#1D4ED8" stroke-width="2" />
+                            <circle cx="200" cy="100" r="6" fill="#1E293B" />
+                        </g>
+
+                        <line x1="70" y1="100" x2="88" y2="100" stroke="#E74C3C" stroke-width="1.5" id="gap-line-left" />
+                        <line x1="312" y1="100" x2="348" y2="100" stroke="#E74C3C" stroke-width="1.5" id="gap-line-right" />
+                    </svg>
+                </div>
+                <div>
+                    <h4 style="margin-bottom:0.5rem;">Assembly Risk & Diagnostic Report</h4>
+                    <div id="airgap-status-alert" class="alert-panel alert-success">
+                        ✅ System within spec: Uniform symmetric clearances minimize secondary structural parasitic forces.
+                    </div>
+                    <ul style="margin-left:1.5rem; margin-top:1rem; font-size:0.9rem;" id="airgap-warnings-list">
+                        <li><strong>Acoustic Profile:</strong> Normal operating decibel limits.</li>
+                        <li><strong>Vibration Matrix:</strong> Within ISO 10816 standards.</li>
+                        <li><strong>Thermal Signature:</strong> Balanced heat dissipation across the core.</li>
+                        <li><strong>Bearing Reliability:</strong> Designed L10 life expectations intact.</li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+
+        <section style="border-left: 5px solid var(--accent);">
+            <h2>Real Engineering Example: NEMA 284T Frame</h2>
+            <div class="grid-2">
+                <div>
+                    <p>Let us review a step-by-step sizing sequence for a standard industrial <strong>NEMA 284T Frame</strong> electric motor configuration.</p>
+                    <table style="width:100%; font-size:0.9rem; border-collapse:collapse;">
+                        <tr style="border-bottom:1px solid #E2E8F0; background:#F8FAFC;"><td style="padding:0.4rem; font-weight:600;">Frame Spec Profile</td><td style="padding:0.4rem;">NEMA 284T Heavy Industrial</td></tr>
+                        <tr style="border-bottom:1px solid #E2E8F0;"><td style="padding:0.4rem; font-weight:600;">Core Frame Spacing</td><td style="padding:0.4rem;">200.00 mm</td></tr>
+                        <tr style="border-bottom:1px solid #E2E8F0;"><td style="padding:0.4rem; font-weight:600;">DE Bracket Shoulder Offset</td><td style="padding:0.4rem;">45.00 mm</td></tr>
+                        <tr style="border-bottom:1px solid #E2E8F0;"><td style="padding:0.4rem; font-weight:600;">ODE Bracket Shoulder Offset</td><td style="padding:0.4rem;">50.00 mm</td></tr>
+                        <tr style="border-bottom:1px solid #E2E8F0;"><td style="padding:0.4rem; font-weight:600;">Target Active Rotor Stack</td><td style="padding:0.4rem;">180.00 mm</td></tr>
+                    </table>
+                </div>
+                <div style="background:var(--primary-light); padding:1.5rem; border-radius:6px;">
+                    <h4 style="color:var(--primary-dark); margin-bottom:0.5rem;">Step-by-Step Mathematical Walkthrough:</h4>
+                    <ol style="margin-left:1.2rem; font-size:0.9rem; display:flex; flex-direction:column; gap:0.5rem;">
+                        <li><strong>Sum the Outer Envelope Bounds:</strong> Combine the core framework spacing and bracket offset dimensions.<br>$$\text{Total Space Input} = 200.00 + 45.00 + 50.00 = 295.00\,\text{mm}$$</li>
+                        <li><strong>Determine Core Symmetrical Alignment Centerpoint:</strong> Mid-axis configuration lines match the system global zero midpoint reference profile.</li>
+                        <li><strong>Establish Target B-B Dimension Setting:</strong> The ideal physical configuration length equals <strong>295.00 mm</strong>.</li>
+                    </ol>
+                </div>
+            </div>
+        </section>
+
+        <section style="background:#FFFBF0; border-color:#FEEBC8;">
+            <h2 style="color:#C05621; border-color:#FEEBC8;">Common Design Mistakes</h2>
+            <div class="grid-3">
+                <div class="card" style="background:white;">
+                    <div class="card-title" style="color:#C05621;">❌ Ignoring Cumulative Variations</div>
+                    <p style="font-size:0.85rem;">Assuming parts always match nominal midpoints can cause bearings to bind during final assembly lines.</p>
+                </div>
+                <div class="card" style="background:white;">
+                    <div class="card-title" style="color:#C05621;">❌ Rigid Bearing Constraints</div>
+                    <p style="font-size:0.85rem;">Locking both outer rings in place leaves no room for thermal growth, creating extreme axial loads as the motor heats up.</p>
+                </div>
+                <div class="card" style="background:white;">
+                    <div class="card-title" style="color:#C05621;">❌ Outdated Revision Prints</div>
+                    <p style="font-size:0.85rem;">Failing to update custom bracket casting profiles can misalign the internal magnetic centers across configurations.</p>
+                </div>
+                <div class="card" style="background:white;">
+                    <div class="card-title" style="color:#C05621;">❌ Incorrect Seating Tolerances</div>
+                    <p style="font-size:0.85rem;">Improper shaft shoulder corner radii can prevent the bearings from seating flush, shifting their planned axial positions.</p>
+                </div>
+                <div class="card" style="background:white;">
+                    <div class="card-title" style="color:#C05621;">❌ Misjudging Machining Variances</div>
+                    <p style="font-size:0.85rem;">Using loose general tolerances instead of precision geometric limits on deep-bored components causes excessive variable wobble.</p>
+                </div>
+                <div class="card" style="background:white;">
+                    <div class="card-title" style="color:#C05621;">❌ Skipping Real-World Verification</div>
+                    <p style="font-size:0.85rem;">Relying purely on theoretical CAD models without verifying assembly stack-ups before manufacturing leads to costly engineering changes.</p>
+                </div>
+            </div>
+        </section>
+
+        <section id="builder">
+            <h2>Interactive Motor Configuration Builder</h2>
+            <p>Adjust structural parameters to watch how component changes dynamically modify the overall system footprint and B-B limits.</p>
+            
+            <div class="grid-2">
+                <div style="background:#F8FAFC; padding:1.5rem; border-radius:6px; border:1px solid var(--border-color);">
+                    <div class="form-group">
+                        <label for="build-frame">Target Frame Size Standard:</label>
+                        <select id="build-frame" onchange="updateMotorBuilder()">
+                            <option value="184T">NEMA 184T Entry Class</option>
+                            <option value="215T">NEMA 215T Midrange Class</option>
+                            <option value="284T" selected>NEMA 284T Heavy Industrial</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="build-core-len">Core Housing Base Extension length (mm):</label>
+                        <input type="range" id="build-core-len" min="150" max="300" value="220" style="width:100%;" oninput="updateMotorBuilder()">
+                        <div style="text-align:right; font-size:0.8rem; font-weight:bold;" id="val-build-core-len">220 mm</div>
+                    </div>
+                    <div class="form-group">
+                        <label for="build-brg-type">Bearing Selection Classification Profile:</label>
+                        <select id="build-brg-type" onchange="updateMotorBuilder()">
+                            <option value="6205">Deep Groove Ball 6205 series (Standard Width)</option>
+                            <option value="6309">Heavy Loading Ball 6309 series (Increased Width)</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="build-rotor-len">Internal Core Rotor Body Length (mm):</label>
+                        <input type="range" id="build-rotor-len" min="120" max="280" value="190" style="width:100%;" oninput="updateMotorBuilder()">
+                        <div style="text-align:right; font-size:0.8rem; font-weight:bold;" id="val-build-rotor-len">190 mm</div>
+                    </div>
+                </div>
+
+                <div style="background:#FFFFFF; border:1px solid var(--border-color); padding:1.5rem; border-radius:6px; display:flex; flex-direction:column; justify-content:space-between;">
+                    <div>
+                        <h4 style="color:var(--primary-dark); margin-bottom:1rem;">Real-time Dynamic Geometry Readout Matrix</h4>
+                        <div style="display:flex; justify-content:between; margin-bottom:0.5rem; border-bottom:1px solid #E2E8F0; padding-bottom:0.25rem;">
+                            <span style="font-weight:600; flex:1;">Calculated Functional B-B Length:</span>
+                            <span id="readout-bb" style="font-weight:700; color:var(--primary);">310.00 mm</span>
+                        </div>
+                        <div style="display:flex; justify-content:between; margin-bottom:0.5rem; border-bottom:1px solid #E2E8F0; padding-bottom:0.25rem;">
+                            <span style="font-weight:600; flex:1;">Total Length Profile:</span>
+                            <span id="readout-total" style="font-weight:700;">430.00 mm</span>
+                        </div>
+                        <div style="display:flex; justify-content:between; margin-bottom:0.5rem; border-bottom:1px solid #E2E8F0; padding-bottom:0.25rem;">
+                            <span style="font-weight:600; flex:1;">Magnetic Core Gap Displacement Bias:</span>
+                            <span id="readout-bias" style="font-weight:700; color:var(--success);">0.00 mm (Centered)</span>
+                        </div>
+                    </div>
+                    
+                    <div style="background:#F1F5F9; border-radius:4px; padding:0.75rem; font-size:0.8rem; color:var(--text-muted);">
+                        💡 <strong>Builder Note:</strong> Changing the frame size dynamically resets your core length limits to keep your model structurally valid.
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="quiz">
+            <h2>Knowledge Check Assessment</h2>
+            <p>Verify your understanding of B-B dimension design constraints by completing the review module questions below.</p>
+            
+            <div style="display:flex; flex-direction:column; gap:1.5rem;">
+                <div class="card" style="background:#FAFAFA;">
+                    <h4 style="margin-bottom:0.75rem;">1. What direct hazard profile manifests if the nominal production B-B length drops significantly below minimal drawing limits?</h4>
+                    <div class="quiz-option" onclick="checkQuiz(this, false, 'q1')">A) System operational electrical frequency spikes up instantly.</div>
+                    <div class="quiz-option" onclick="checkQuiz(this, true, 'q1')">B) Internal bearings undergo severe axial crushing forces upon bracket assembly.</div>
+                    <div class="quiz-option" onclick="checkQuiz(this, false, 'q1')">C) Dynamic air gap dimensions balloon outwards across limits evenly.</div>
+                </div>
+
+                <div class="card" style="background:#FAFAFA;">
+                    <h4 style="margin-bottom:0.75rem;">2. How does applying traditional Worst-Case Analysis methods affect manufacturing tolerance parameters?</h4>
+                    <div class="quiz-option" onclick="checkQuiz(this, true, 'q2')">A) It establishes absolute worst-case limit safety margins by strictly summing the tightest possible variation peaks.</div>
+                    <div class="quiz-option" onclick="checkQuiz(this, false, 'q2')">B) It leverages normal distribution curves to loosen machining tolerance requirements.</div>
+                    <div class="quiz-option" onclick="checkQuiz(this, false, 'q2')">C) It ignores individual component variances to calculate a generic average limit.</div>
+                </div>
+
+                <div class="card" style="background:#FAFAFA;">
+                    <h4 style="margin-bottom:0.75rem;">3. Why must engineers maintain a precise, uniform alignment center across the internal magnetic stacks?</h4>
+                    <div class="quiz-option" onclick="checkQuiz(this, false, 'q3')">A) To shield the outer casting surfaces from dynamic environmental debris.</div>
+                    <div class="quiz-option" onclick="checkQuiz(this, false, 'q3')">B) To eliminate the need for primary external frame ground connection lines.</div>
+                    <div class="quiz-option" onclick="checkQuiz(this, true, 'q3')">C) To prevent continuous axial magnetic pull forces from straining and wearing down the bearings.</div>
+                </div>
+            </div>
+            
+            <div style="margin-top:1.5rem; font-weight:700; font-size:1.1rem; color:var(--primary-dark);" id="quiz-score-summary">
+                Current Assessment Score: Verified 0 / 3 Correct Fields.
+            </div>
+        </section>
+
+        <section style="background:transparent; border:none; padding:0;">
+            <div class="blueprint-notes">
+                <h3>📋 Senior Design Engineer Notes &amp; Verification Protocols</h3>
+                <div class="blueprint-line">▪️ Always measure bracket offset dimensions from the machined bearing seat shoulder, not rough cast faces.</div>
+                <div class="blueprint-line">▪️ Perform a comprehensive statistical or worst-case tolerance stack-up analysis before releasing production tooling prints.</div>
+                <div class="blueprint-line">▪️ Account for structural material differences: Aluminum frames expand faster than steel shafts under thermal load.</div>
+                <div class="blueprint-line">▪️ Verify that the floating-end bearing retains at least 1.5mm of axial clearance to allow for shaft expansion at maximum operating temperatures.</div>
+                <div class="blueprint-line">▪️ Double-check real-world component alignment after assembly by measuring turning resistance torque signatures.</div>
+            </div>
+        </section>
+
+    </div>
+
+    <script>
+        // Interactive Info Display Tracking Logic
+        document.querySelectorAll('.interactive-part').forEach(element => {
+            element.addEventListener('mouseenter', (e) => {
+                const title = e.currentTarget.getAttribute('data-title');
+                const desc = e.currentTarget.getAttribute('data-desc');
+                const outputField = document.getElementById('info-display');
+                outputField.innerHTML = `<strong>${title}:</strong> ${desc}`;
+                outputField.style.borderLeftColor = 'var(--accent)';
+            });
+            element.addEventListener('mouseleave', () => {
+                const outputField = document.getElementById('info-display');
+                outputField.innerHTML = 'Hover over the layout geometry to explore critical dimensions.';
+                outputField.style.borderLeftColor = 'var(--primary)';
+            });
+        });
+
+        // Exploded View / Stack Up animation state control handler
+        function animateStackUp(state) {
+            const deBracket = document.getElementById('comp-de-bracket');
+            const deBearing = document.getElementById('comp-de-bearing');
+            const rotor = document.getElementById('comp-rotor');
+            const odeBearing = document.getElementById('comp-ode-bearing');
+            const odeBracket = document.getElementById('comp-ode-bracket');
+
+            if (state === 'explode') {
+                deBracket.style.transform = 'translateX(-70px)';
+                deBearing.style.transform = 'translateX(-35px)';
+                rotor.style.transform = 'translateX(0px)';
+                odeBearing.style.transform = 'translateX(35px)';
+                odeBracket.style.transform = 'translateX(70px)';
+            } else {
+                deBracket.style.transform = 'translateX(0px)';
+                deBearing.style.transform = 'translateX(0px)';
+                rotor.style.transform = 'translateX(0px)';
+                odeBearing.style.transform = 'translateX(0px)';
+                odeBracket.style.transform = 'translateX(0px)';
+            }
+        }
+
+        // Live calculator evaluation loop
+        function runLiveCalculation() {
+            const deOffset = parseFloat(document.getElementById('input-de-offset').value) || 0;
+            const coreLen = parseFloat(document.getElementById('input-core-length').value) || 0;
+            const odeOffset = parseFloat(document.getElementById('input-ode-offset').value) || 0;
+
+            const totalBB = deOffset + coreLen + odeOffset;
+            document.getElementById('calc-output-bb').innerText = totalBB.toFixed(2) + ' mm';
+        }
+
+        // Air Gap Visual Toggle manipulation functions
+        function setAirGapState(isCorrect) {
+            const btnCorrect = document.getElementById('btn-gap-correct');
+            const btnIncorrect = document.getElementById('btn-gap-incorrect');
+            const rotorObj = document.getElementById('airgap-rotor-obj');
+            const statusAlert = document.getElementById('airgap-status-alert');
+            const warningsList = document.getElementById('airgap-warnings-list');
+
+            if (isCorrect) {
+                btnCorrect.classList.add('active');
+                btnIncorrect.classList.remove('active');
+                rotorObj.style.transform = 'translateX(0px)';
+                
+                statusAlert.className = "alert-panel alert-success";
+                statusAlert.innerHTML = "✅ System within spec: Uniform symmetric clearances minimize secondary structural parasitic forces.";
+                
+                warningsList.innerHTML = `
+                    <li><strong>Acoustic Profile:</strong> Normal operating decibel limits.</li>
+                    <li><strong>Vibration Matrix:</strong> Within ISO 10816 standards.</li>
+                    <li><strong>Thermal Signature:</strong> Balanced heat dissipation across the core.</li>
+                    <li><strong>Bearing Reliability:</strong> Designed L10 life expectations intact.</li>
+                `;
+            } else {
+                btnCorrect.classList.remove('active');
+                btnIncorrect.classList.add('active');
+                rotorObj.style.transform = 'translateX(-22px)';
+                
+                statusAlert.className = "alert-panel alert-danger";
+                statusAlert.innerHTML = "⚠️ CRITICAL WARNING: Asymmetric airgap detected. Magnetic imbalance vectors are active.";
+                
+                warningsList.innerHTML = `
+                    <li style="color:var(--danger)"><strong>Acoustic Profile:</strong> High frequency hum and electromagnetic noise.</li>
+                    <li style="color:var(--danger)"><strong>Vibration Matrix:</strong> High axial vibration levels causing shaft fatigue.</li>
+                    <li style="color:var(--danger)"><strong>Thermal Signature:</strong> Localized hotspot generation on rotor end rings.</li>
+                    <li style="color:var(--danger)"><strong>Bearing Reliability:</strong> Accelerated wear due to unintended axial preloading.</li>
+                `;
+            }
+        }
+
+        // Configuration Builder Logic Model
+        function updateMotorBuilder() {
+            const frame = document.getElementById('build-frame').value;
+            const coreLenInput = document.getElementById('build-core-len');
+            const rotorLenInput = document.getElementById('build-rotor-len');
+            
+            let baseBracketOffset = 40;
+            if (frame === '184T') {
+                baseBracketOffset = 30;
+            } else if (frame === '215T') {
+                baseBracketOffset = 35;
+            } else if (frame === '284T') {
+                baseBracketOffset = 50;
+            }
+
+            const coreLength = parseFloat(coreLenInput.value);
+            const rotorLength = parseFloat(rotorLenInput.value);
+            
+            document.getElementById('val-build-core-len').innerText = coreLength + ' mm';
+            document.getElementById('val-build-rotor-len').innerText = rotorLength + ' mm';
+
+            // Calculate metrics based on components
+            const computedBB = baseBracketOffset + coreLength + baseBracketOffset;
+            const totalLength = computedBB + 110; 
+            const axialAlignmentBias = (coreLength - rotorLength) / 2;
+
+            document.getElementById('readout-bb').innerText = computedBB.toFixed(2) + ' mm';
+            document.getElementById('readout-total').innerText = totalLength.toFixed(2) + ' mm';
+            
+            const biasDisplay = document.getElementById('readout-bias');
+            if (Math.abs(axialAlignmentBias) === 0) {
+                biasDisplay.innerText = "0.00 mm (Perfect Centering)";
+                biasDisplay.style.color = "var(--success)";
+            } else {
+                biasDisplay.innerText = `${axialAlignmentBias.toFixed(2)} mm Axial Symmetry Offset`;
+                biasDisplay.style.color = "var(--warning)";
+            }
+        }
+
+        // Quiz Evaluation State Validation Tracking
+        let scoreTracker = { q1: false, q2: false, q3: false };
+
+        function checkQuiz(element, isCorrect, questionKey) {
+            // Reset sibling selection styles
+            const siblings = element.parentNode.querySelectorAll('.quiz-option');
+            siblings.forEach(el => {
+                el.classList.remove('correct', 'wrong');
+            });
+
+            if (isCorrect) {
+                element.classList.add('correct');
+                scoreTracker[questionKey] = true;
+            } else {
+                element.classList.add('wrong');
+                scoreTracker[questionKey] = false;
+            }
+
+            // Summarize total tracked fields
+            const totalScore = Object.values(scoreTracker).filter(Boolean).length;
+            document.getElementById('quiz-score-summary').innerText = `Current Assessment Score: Verified ${totalScore} / 3 Correct Fields.`;
+        }
+
+        // Run baseline setup functions upon immediate code evaluation context load
+        runLiveCalculation();
+    </script>
+</body>
+</html>
